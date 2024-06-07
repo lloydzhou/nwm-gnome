@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=nwm + GNOME
+Comment=This session logs you into nwm with GNOME session integration
+Exec=gnome-session-nwm
+TryExec=nwm-gnome
+Type=Application
+DesktopNames=GNOME
+X-Ubuntu-Gettext-Domain=gnome-session-3.0
