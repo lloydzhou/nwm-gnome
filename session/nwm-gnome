@@ -5,12 +5,25 @@ test -n "$DESKTOP_AUTOSTART_ID" && {
     dbus-send --print-reply --session --dest=org.gnome.SessionManager "/org/gnome/SessionManager" org.gnome.SessionManager.RegisterClient "string:nwm-gnome" "string:$DESKTOP_AUTOSTART_ID"
 }
 
-# Support for merging .Xresources
-test -e $HOME/.Xresources && {
-    xrdb -merge $HOME/.Xresources
-}
+procs=("/usr/libexec/gsd-xsettings" "gnome-flashback" "gnome-keyring-daemon -f")
+procslength=${#procs[@]}
 
-/usr/bin/nwm
+for (( i=0; i<${procslength}; i++ )); do
+    ${procs[$i]} &
+    pids[$i]=$!
+done
+
+# Support for merging .Xresources
+# test -e $HOME/.Xresources && {
+#     xrdb -merge $HOME/.Xresources
+# }
+
+sleep 1
+nwm
+
+for pid in ${pids[*]}; do
+    kill $pid
+done
 
 # Logout process.
 test -n "$DESKTOP_AUTOSTART_ID" && {
