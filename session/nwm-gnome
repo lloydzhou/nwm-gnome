@@ -18,8 +18,14 @@ done
 #     xrdb -merge $HOME/.Xresources
 # }
 
+export XIM_PROGRAM=fcitx
+export XIM=fcitx
+export GTK_IM_MODULE=fcitx
+export QT_IM_MODULE=fcitx
+export XMODIFIERS="@im=fcitx"
+
 sleep 1
-nwm
+/usr/lib/node_modules/nwm/bin/nwm & fcitx-autostart
 
 for pid in ${pids[*]}; do
     kill $pid
